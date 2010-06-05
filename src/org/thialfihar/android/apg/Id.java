@@ -80,6 +80,11 @@ public final class Id {
         public static final int export_keys = 0x21070002;
     }
 
+    public static final class database {
+        public static final int type_public = 0;
+        public static final int type_secret = 1;
+    }
+
     public static final class type {
         public static final int public_key = 0x21070001;
         public static final int secret_key = 0x21070002;
@@ -105,6 +110,13 @@ public final class Id {
             public static final int sign_only = 0x21070001;
             public static final int encrypt_only = 0x21070002;
             public static final int sign_and_encrypt = 0x21070003;
+        }
+
+        public static final class action {
+            public static final int encrypt = 0x21070001;
+            public static final int decrypt = 0x21070002;
+            public static final int import_public = 0x21070003;
+            public static final int import_secret = 0x21070004;
         }
     }
 
