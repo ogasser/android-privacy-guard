@@ -101,6 +101,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
+import android.util.Log;
 import android.view.ViewGroup;
 
 public class Apg {
@@ -638,12 +639,6 @@ public class Apg {
                             try {
                                 PGPPrivateKey testKey = secretKeyRing.getSecretKey()
                                         .extractPrivateKey(new char[] {}, new BouncyCastleProvider());
-                                if (testKey == null) {
-                                    // this is bad, something is very wrong... likely a
-                                    // --export-secret-subkeys export
-                                    retValue = Id.return_value.bad;
-                                    save = false;
-                                }
                             } catch (PGPException e) {
                                 // all good if this fails, we likely didn't use the right password
                             }
@@ -1239,9 +1234,6 @@ public class Apg {
             progress.setProgress(R.string.progress_extractingSignatureKey, 0, 100);
             signaturePrivateKey = signingKey.extractPrivateKey(signaturePassPhrase.toCharArray(),
                                                                new BouncyCastleProvider());
-            if (signaturePrivateKey == null) {
-                throw new GeneralException(context.getString(R.string.error_couldNotExtractPrivateKey));
-            }
         }
         progress.setProgress(R.string.progress_preparingStreams, 5, 100);
         // encrypt and compress input file content
@@ -1380,9 +1372,6 @@ public class Apg {
         signaturePrivateKey =
                 signingKey.extractPrivateKey(signaturePassPhrase.toCharArray(),
                                              new BouncyCastleProvider());
-        if (signaturePrivateKey == null) {
-            throw new GeneralException(context.getString(R.string.error_couldNotExtractPrivateKey));
-        }
         progress.setProgress(R.string.progress_preparingStreams, 0, 100);
 
         progress.setProgress(R.string.progress_preparingSignature, 30, 100);
@@ -1496,9 +1485,6 @@ public class Apg {
         signaturePrivateKey =
                 signingKey.extractPrivateKey(signaturePassPhrase.toCharArray(),
                                              new BouncyCastleProvider());
-        if (signaturePrivateKey == null) {
-            throw new GeneralException(context.getString(R.string.error_couldNotExtractPrivateKey));
-        }
         progress.setProgress(R.string.progress_preparingStreams, 0, 100);
 
         progress.setProgress(R.string.progress_preparingSignature, 30, 100);
@@ -1736,9 +1722,6 @@ public class Apg {
                                                          new BouncyCastleProvider());
             } catch (PGPException e) {
                 throw new PGPException(context.getString(R.string.error_wrongPassPhrase));
-            }
-            if (privateKey == null) {
-                throw new GeneralException(context.getString(R.string.error_couldNotExtractPrivateKey));
             }
             currentProgress += 5;
             progress.setProgress(R.string.progress_preparingStreams, currentProgress, 100);
