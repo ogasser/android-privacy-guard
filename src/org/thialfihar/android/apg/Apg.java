@@ -790,7 +790,7 @@ public class Apg {
         PGPPublicKey masterKey = null;
         for (int i = 0; i < encryptKeys.size(); ++i) {
             PGPPublicKey key = encryptKeys.get(i);
-            if (!isExpired(key)) {
+            if (!isExpired(key) && !key.isRevoked()) {
                 if (key.isMasterKey()) {
                     masterKey = key;
                 } else {
